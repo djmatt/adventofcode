@@ -4,10 +4,10 @@ def aoc2017d1p1(num: int) -> int:
     # get list of successor digits
     successors = digits[1:] + [digits[0]]
     # find digits that match successors
-    matches = [digit
+    matches = (digit
                for digit, successor
                in zip(digits, successors)
-               if digit == successor]
+               if digit == successor)
     # the result is the sum of the matches
     return sum(matches)
 

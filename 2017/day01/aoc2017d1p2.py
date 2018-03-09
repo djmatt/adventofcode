@@ -5,10 +5,10 @@ def aoc2017d1p2(num: int) -> int:
     halfway = len(digits)//2
     successors = digits[halfway:] + digits[:halfway]
     # find digits that match successors
-    matches = [digit
+    matches = (digit
                for digit, successor
                in zip(digits, successors)
-               if digit == successor]
+               if digit == successor)
     # the result is the sum of the matches
     return sum(matches)
 
@@ -18,7 +18,7 @@ if __name__ == "__main__":
                  (1221, 0),
                  (123425, 4),
                  (123123, 12),
-                 (12131415,4)]
+                 (12131415, 4)]
 
     for case, expected in TESTCASES:
         result = aoc2017d1p2(case)

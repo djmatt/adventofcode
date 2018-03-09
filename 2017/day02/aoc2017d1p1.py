@@ -1,4 +1,5 @@
-inputfile = ".\\2017\\day2\\input.txt"
+inputfile = ".\\2017\\day02\\input.txt"
+
 
 def rowdiffs(filename):
     with open(filename) as infile:
@@ -7,4 +8,6 @@ def rowdiffs(filename):
             diff = max(nums) - min(nums)
             yield diff
 
-print(f"Checksum {sum(rowdiffs(inputfile))}")
+
+checksum = sum(rowdiffs(inputfile))
+print(f"Checksum {checksum}")
