@@ -1,4 +1,0 @@
-{
-    "python.pythonPath": "${workspaceRoot}\\venv\\Scripts\\python.exe",
-    "python.formatting.formatOnSave": true
-}
