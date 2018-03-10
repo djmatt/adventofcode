@@ -9,6 +9,7 @@ name = "pypi"
 
 "autopep8" = "*"
 pylint = "*"
+rope = "*"
 
 
 [dev-packages]

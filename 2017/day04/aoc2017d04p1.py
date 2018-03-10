@@ -14,8 +14,8 @@ if __name__ == "__main__":
                  ('aa bb cc dd aa', False),
                  ('aa bb cc dd aaa', True)]
 
-    for input, expected in TESTCASES:
-        result = test_pw(input)
+    for testcase, expected in TESTCASES:
+        result = test_pw(testcase)
         assert result == expected
 
     with open(INTPUTFILE) as infile:

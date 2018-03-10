@@ -15,13 +15,13 @@ def jumper(instructions):
 if __name__ == "__main__":
     TESTCASES = [([0, 3, 0, 1, -3], 5)]
 
-    for input, expected in TESTCASES:
-        result = jumper(input)
+    for instructions, expected in TESTCASES:
+        result = jumper(instructions)
         assert(result == expected)
 
     PUZZLEFILENAME = '.\\2017\\day05\\input.txt'
     with open(PUZZLEFILENAME) as infile:
-        input = [int(x) for x in infile.readlines()]
+        instructions = [int(x) for x in infile.readlines()]
 
-    result = jumper(input)
+    result = jumper(instructions)
     print(result)

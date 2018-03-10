@@ -18,8 +18,8 @@ if __name__ == "__main__":
                  ('iiii oiii ooii oooi oooo', True),
                  ('oiii ioii iioi iiio', False)]
 
-    for input, expected in TESTCASES:
-        result = test_pw(input)
+    for testcase, expected in TESTCASES:
+        result = test_pw(testcase)
         assert result == expected
 
     with open(INTPUTFILE) as infile:

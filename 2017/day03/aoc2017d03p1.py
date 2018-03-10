@@ -48,8 +48,8 @@ if __name__ == "__main__":
                  (23, 2),
                  (1024, 31)]
 
-    for input, expected in TESTCASES:
-        result = manhanttan_length(nth(spiralgen(), input-1))
+    for testcase, expected in TESTCASES:
+        result = manhanttan_length(nth(spiralgen(), testcase-1))
         print(f"Input: {input},  Result: {result},  Expected: {expected}")
         assert result == expected
 
