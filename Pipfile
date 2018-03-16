@@ -10,6 +10,7 @@ name = "pypi"
 "autopep8" = "*"
 pylint = "*"
 rope = "*"
+bokeh = "*"
 
 
 [dev-packages]
