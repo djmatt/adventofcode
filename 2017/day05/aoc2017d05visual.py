@@ -1,9 +1,10 @@
 # from bokeh.plotting import figure, show
-from bokeh.models.glyphs import Quadratic, Arc
-from bokeh.models import Plot, DataRange1d, ColumnDataSource, LinearAxis, Grid
-from bokeh.io import curdoc, show
-from bokeh.palettes import Viridis256, Plasma256
 from itertools import count
+
+from bokeh.io import curdoc, show
+from bokeh.models import ColumnDataSource, DataRange1d, Grid, LinearAxis, Plot
+from bokeh.models.glyphs import Arc, Quadratic
+from bokeh.palettes import Plasma256, Viridis256
 
 
 def jumper(instructions):
