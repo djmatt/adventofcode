@@ -10,7 +10,7 @@ def gen_freqs(nums):
 
 def aoc2018d1p2(nums):
     chained = cycle(nums)
-    seen = set()
+    seen = {0}
     for freq in gen_freqs(chained):
         if(freq in seen):
             return freq
@@ -25,7 +25,7 @@ def first(interable):
 
 def aoc2018d1p2_alternate(nums):
     "as seen on reddit"
-    seen = set()
+    seen = {0}
     return first(freq for freq in accumulate(cycle(nums)) if freq in seen or seen.add(freq))
 
 
