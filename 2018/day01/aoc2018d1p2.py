@@ -1,4 +1,4 @@
-from itertools import cycle
+from itertools import cycle, accumulate
 
 
 def gen_freqs(nums):
@@ -18,6 +18,17 @@ def aoc2018d1p2(nums):
             seen.add(freq)
 
 
+def first(interable):
+    "returns the first item in the interable"
+    return next(iter(interable))
+
+
+def aoc2018d1p2_alternate(nums):
+    "as seen on reddit"
+    seen = set()
+    return first(freq for freq in accumulate(cycle(nums)) if freq in seen or seen.add(freq))
+
+
 if __name__ == "__main__":
     TESTCASES = [([+1, -2, +3, +1], 2),
                  ([+1, -1], 0),
@@ -33,4 +44,7 @@ if __name__ == "__main__":
     with open(".\\2018\\day01\\input.txt") as infile:
         PUZZLEINPUT = [int(num) for num in infile.readlines()]
         RESULT = aoc2018d1p2(PUZZLEINPUT)
+        print(f"Result is {RESULT}")
+
+        RESULT = aoc2018d1p2_alternate(PUZZLEINPUT)
         print(f"Result is {RESULT}")
