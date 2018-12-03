@@ -25,6 +25,6 @@ if __name__ == "__main__":
         assert result == expected
 
     with open(".\\2018\\day02\\input.txt") as infile:
-        PUZZLEINPUT = [line for line in infile.readlines()]
+        PUZZLEINPUT = [line.strip() for line in infile.readlines()]
         RESULT = aoc2018d2p2(PUZZLEINPUT)
         print(f"Result is {RESULT}")
