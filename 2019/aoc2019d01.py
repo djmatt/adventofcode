@@ -21,12 +21,8 @@ def part2(modules):
 
 
 if __name__ == "__main__":
-
-    with open(Path.cwd()/"session.id") as id_file:
-        user = User(id_file.readline())
-
     # Get Puzzle data
-    p = Puzzle(year=2019, day=1, user=user)
+    p = Puzzle(year=2019, day=1)
     input_data = [int(x) for x in p.input_data.splitlines()]
 
     # Part one

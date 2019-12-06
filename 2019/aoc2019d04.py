@@ -71,22 +71,14 @@ def part2():
 
 
 if __name__ == "__main__":
-    # with open(Path.cwd()/"session.id") as id_file:
-    #     user = User(id_file.readline())
-
-    # Get Puzzle data
-    # p = Puzzle(year=2019, day=4, user=user)
-
     # Part one
-    # p.answer_a = part1(input_data)
     print(part1())
 
     # Part two
-    # p.answer_b = part2(input_data)
     print(part2())
     lo, hi = 171309, 643603
     finalset = sorted(list(set(num for num in (int(numstr)
                                                for numstr in doubleADigit2(genMonotonic(5)))
                                if lo <= num <= hi)))
 
-    print(finalset)
+    # print(finalset)

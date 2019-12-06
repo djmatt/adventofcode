@@ -39,14 +39,14 @@ def jumptrue(program, modes, operands):
     global pc
     param1 = program[pc+1] if modes[0] else program[operands[0]]
     param2 = program[pc+2] if modes[1] else program[operands[1]]
-    pc = param2 if param1 != 0 else pc+3
+    pc = param2-3 if param1 != 0 else pc
 
 
 def jumpfalse(program, modes, operands):
     global pc
     param1 = program[pc+1] if modes[0] else program[operands[0]]
     param2 = program[pc+2] if modes[1] else program[operands[1]]
-    pc = param2 if param1 == 0 else pc+3
+    pc = param2-3 if param1 == 0 else pc
 
 
 def lessthan(program, modes, operands):
@@ -70,8 +70,9 @@ def endprogram(program, modes, operands):
     print("That's all folks!")
 
 
-def decode(instruction):
+def decode(program):
     global pc
+    instruction = program[pc]
     strcode = f"{instruction:05d}"
     opcode = int(strcode[3:])
     modes = tuple([bool(int(strcode[2])),
@@ -111,37 +112,20 @@ opcount = {
     99: 1
 }
 
-incrementpc = {
-    1: 4,
-    2: 4,
-    3: 2,
-    4: 2,
-    5: 0,
-    6: 0,
-    7: 4,
-    8: 4,
-    99: 1
-}
-
 
 def proccesingloop(program):
     global pc
     opcode = 0
     while opcode != 99:
-        # get instruction from current pc
-        instruction = program[pc]
-        # decode instruction for opcode and modes
-        opcode, modes, operands = decode(instruction)
+        # decode current instruction for opcode, modes and operands
+        opcode, modes, operands = decode(program)
         # Carry out instruction
         operation[opcode](program, modes, operands)
         # Update PC
-        pc += incrementpc[opcode]
+        pc += opcount[opcode]
 
 
 if __name__ == "__main__":
-
-    # with open(Path.cwd()/"session.id") as id_file:
-        # user = User(id_file.readline())
 
     # Get Puzzle data
     p = Puzzle(year=2019, day=5)

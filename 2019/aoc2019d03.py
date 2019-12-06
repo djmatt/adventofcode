@@ -102,12 +102,8 @@ def part2(puzzle_data):
 
 
 if __name__ == "__main__":
-
-    with open(Path.cwd()/"session.id") as id_file:
-        user = User(id_file.readline())
-
     # Get Puzzle data
-    p = Puzzle(year=2019, day=3, user=user)
+    p = Puzzle(year=2019, day=3)
 
     # Part one
     # p.answer_a = part1(input_data)

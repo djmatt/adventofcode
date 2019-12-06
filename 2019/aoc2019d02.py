@@ -28,7 +28,7 @@ def part1(program):
 def part2(puzzle_data):
     for noun, verb in product(range(100), range(100)):
         program = puzzle_data[:]
-        print(f"*-*{noun},{verb}*-*")
+        # print(f"*-*{noun},{verb}*-*")
         program[1] = noun
         program[2] = verb
         if part1(program) == 19690720:
@@ -38,12 +38,8 @@ def part2(puzzle_data):
 
 
 if __name__ == "__main__":
-
-    with open(Path.cwd()/"session.id") as id_file:
-        user = User(id_file.readline())
-
     # Get Puzzle data
-    p = Puzzle(year=2019, day=2, user=user)
+    p = Puzzle(year=2019, day=2)
     input_data = [int(x) for x in p.input_data.split(',')]
 
     # Part one
