@@ -6,67 +6,42 @@ from itertools import product
 pc = 0
 
 
-def add(program, modes, operands):
-    global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    param3 = pc+3 if modes[2] else operands[2]
-    program[param3] = param1 + param2
+def add(program, operands):
+    program[operands[2]] = program[operands[0]] + program[operands[1]]
 
 
-def mult(program, modes, operands):
-    global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    param3 = pc+3 if modes[2] else operands[2]
-    program[param3] = param1 * param2
+def mult(program, operands):
+    program[operands[2]] = program[operands[0]] * program[operands[1]]
 
 
-def getinput(program, modes, operands):
-    global pc
-    param1 = pc+1 if modes[0] else operands[0]
+def getinput(program, operands):
     progInput = input("Provide me a number: ")
-    program[param1] = int(progInput)
+    program[operands[0]] = int(progInput)
 
 
-def printoutput(program, modes, operands):
+def printoutput(program, operands):
+    print(f"Diagnostic Code: {program[operands[0]]}")
+
+
+def jumptrue(program, operands):
     global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    print(f"Diagnostic Code: {param1}")
+    pc = program[operands[1]]-3 if program[operands[0]] != 0 else pc
 
 
-def jumptrue(program, modes, operands):
+def jumpfalse(program, operands):
     global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    pc = param2-3 if param1 != 0 else pc
+    pc = program[operands[1]]-3 if program[operands[0]] == 0 else pc
 
 
-def jumpfalse(program, modes, operands):
-    global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    pc = param2-3 if param1 == 0 else pc
+def lessthan(program, operands):
+    program[operands[2]] = int(program[operands[0]] < program[operands[1]])
 
 
-def lessthan(program, modes, operands):
-    global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    param3 = pc+3 if modes[2] else operands[2]
-    program[param3] = int(param1 < param2)
+def equals(program, operands):
+    program[operands[2]] = int(program[operands[0]] == program[operands[1]])
 
 
-def equals(program, modes, operands):
-    global pc
-    param1 = program[pc+1] if modes[0] else program[operands[0]]
-    param2 = program[pc+2] if modes[1] else program[operands[1]]
-    param3 = pc+3 if modes[2] else operands[2]
-    program[param3] = int(param1 == param2)
-
-
-def endprogram(program, modes, operands):
-    global pc
+def endprogram(program, operands):
     print("That's all folks!")
 
 
@@ -78,14 +53,13 @@ def decode(program):
     modes = tuple([bool(int(strcode[2])),
                    bool(int(strcode[1])),
                    bool(int(strcode[0]))])
-    operands = tuple(program[pc+i+1] for i in range(opcount[opcode]-1))
+    operands = tuple(pc+i+1 if modes[i] else program[pc+i+1]
+                     for i in range(opcount[opcode]-1))
 
     # print for debug
-    modestr = ''.join(['P' if mode else 'I' for mode in modes])
-    print(
-        f"PC: {pc:03d}; Opcode: {opcode:02d}; Modes: {modestr}; Operands: {operands}")
+    print(f"PC: {pc:03d}; Opcode: {opcode:02d};  Operands: {operands}")
 
-    return opcode, modes, operands
+    return opcode, operands
 
 
 operation = {
@@ -117,20 +91,18 @@ def proccesingloop(program):
     global pc
     opcode = 0
     while opcode != 99:
-        # decode current instruction for opcode, modes and operands
-        opcode, modes, operands = decode(program)
+        # decode current instruction for opcode and operands
+        opcode, operands = decode(program)
         # Carry out instruction
-        operation[opcode](program, modes, operands)
+        operation[opcode](program, operands)
         # Update PC
         pc += opcount[opcode]
 
 
 if __name__ == "__main__":
-
     # Get Puzzle data
     p = Puzzle(year=2019, day=5)
     input_data = [int(x) for x in p.input_data.split(',')]
-
     program = input_data[:]
 
     proccesingloop(program)
