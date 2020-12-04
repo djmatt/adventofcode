@@ -8,6 +8,7 @@ bokeh = "*"
 advent-of-code-data = "*"
 parse = "*"
 ipython = "*"
+jupyterlab = "*"
 
 [dev-packages]
 "autopep8" = "*"
