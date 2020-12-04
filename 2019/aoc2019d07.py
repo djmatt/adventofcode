@@ -7,23 +7,23 @@ from itertools import permutations
 class IntCodeComputer(object):
 
     def __init__(self, program):
-        self.__origProg = program[:]
-        self.__program = program[:]
-        self.__pc = 0
-        self.__inputs = deque()
-        self.__outputs = []
-        self.__operation = {
-            1: self.__add,
-            2: self.__mult,
-            3: self.__getinput,
-            4: self.__storeoutput,
-            5: self.__jumptrue,
-            6: self.__jumpfalse,
-            7: self.__lessthan,
-            8: self.__equals,
-            99: self.__endprogram
+        self._disk = program[:]
+        self._ram = program[:]
+        self._pc = 0
+        self._inputs = deque()
+        self._outputs = []
+        self._operation = {
+            1: self._add,
+            2: self._mult,
+            3: self._getinput,
+            4: self._storeoutput,
+            5: self._jumptrue,
+            6: self._jumpfalse,
+            7: self._lessthan,
+            8: self._equals,
+            99: self._endprogram
         }
-        self.__opcount = {
+        self._opcount = {
             1: 4,
             2: 4,
             3: 2,
@@ -35,49 +35,49 @@ class IntCodeComputer(object):
             99: 1
         }
 
-    def __add(self, operands):
-        self.__program[operands[2]] = self.__program[operands[0]] + \
-            self.__program[operands[1]]
+    def _add(self, operands):
+        self._ram[operands[2]] = self._ram[operands[0]] + \
+            self._ram[operands[1]]
 
-    def __mult(self, operands):
-        self.__program[operands[2]] = self.__program[operands[0]] * \
-            self.__program[operands[1]]
+    def _mult(self, operands):
+        self._ram[operands[2]] = self._ram[operands[0]] * \
+            self._ram[operands[1]]
 
-    def __getinput(self, operands):
-        self.__program[operands[0]] = self.__inputs.popleft()
+    def _getinput(self, operands):
+        self._ram[operands[0]] = self._inputs.popleft()
 
-    def __storeoutput(self, operands):
-        self.__outputs.append(self.__program[operands[0]])
+    def _storeoutput(self, operands):
+        self._outputs.append(self._ram[operands[0]])
 
-    def __jumptrue(self, operands):
-        self.__pc = self.__program[operands[1]] - 3 \
-            if self.__program[operands[0]] != 0 else self.__pc
+    def _jumptrue(self, operands):
+        self._pc = self._ram[operands[1]] - 3 \
+            if self._ram[operands[0]] != 0 else self._pc
 
-    def __jumpfalse(self, operands):
-        self.__pc = self.__program[operands[1]] - 3 \
-            if self.__program[operands[0]] == 0 else self.__pc
+    def _jumpfalse(self, operands):
+        self._pc = self._ram[operands[1]] - 3 \
+            if self._ram[operands[0]] == 0 else self._pc
 
-    def __lessthan(self, operands):
-        self.__program[operands[2]] = int(
-            self.__program[operands[0]] < self.__program[operands[1]])
+    def _lessthan(self, operands):
+        self._ram[operands[2]] = int(
+            self._ram[operands[0]] < self._ram[operands[1]])
 
-    def __equals(self, operands):
-        self.__program[operands[2]] = int(
-            self.__program[operands[0]] == self.__program[operands[1]])
+    def _equals(self, operands):
+        self._ram[operands[2]] = int(
+            self._ram[operands[0]] == self._ram[operands[1]])
 
-    def __endprogram(self, operands):
+    def _endprogram(self, operands):
         pass
         # print("That's all folks!")
 
-    def __decode(self):
-        instruction = self.__program[self.__pc]
+    def _decode(self):
+        instruction = self._ram[self._pc]
         strcode = f"{instruction:05d}"
         opcode = int(strcode[3:])
         modes = tuple([bool(int(strcode[2])),
                        bool(int(strcode[1])),
                        bool(int(strcode[0]))])
-        operands = tuple(self.__pc+i+1 if modes[i] else self.__program[self.__pc+i+1]
-                         for i in range(self.__opcount[opcode]-1))
+        operands = tuple(self._pc+i+1 if modes[i] else self._ram[self._pc+i+1]
+                         for i in range(self._opcount[opcode]-1))
 
         # print for debug
         # print(f"PC: {self.__pc:03d}; Opcode: {opcode:02d};  Operands: {operands}")
@@ -88,23 +88,23 @@ class IntCodeComputer(object):
         opcode = 0
         while opcode != 99:
             # decode current instruction for opcode and operands
-            opcode, operands = self.__decode()
+            opcode, operands = self._decode()
             # Carry out instruction
-            self.__operation[opcode](operands)
+            self._operation[opcode](operands)
             # Update PC
-            self.__pc += self.__opcount[opcode]
+            self._pc += self._opcount[opcode]
 
     def run(self, inputs):
-        self.__pc = 0
-        self.__program = self.__origProg[:]
+        self._pc = 0
+        self._ram = self._disk[:]
         if isinstance(inputs, Iterable):
-            self.__inputs.extend(inputs)
+            self._inputs.extend(inputs)
         else:
-            self.__inputs.append(inputs)
-        self.__outputs = []
+            self._inputs.append(inputs)
+        self._outputs = []
         self.__proccesingloop()
 
-        return self.__outputs[:]
+        return self._outputs[:]
 
 
 if __name__ == "__main__":
