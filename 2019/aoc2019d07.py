@@ -84,7 +84,7 @@ class IntCodeComputer(object):
 
         return opcode, operands
 
-    def __proccesingloop(self):
+    def _proccesingloop(self):
         opcode = 0
         while opcode != 99:
             # decode current instruction for opcode and operands
@@ -102,7 +102,7 @@ class IntCodeComputer(object):
         else:
             self._inputs.append(inputs)
         self._outputs = []
-        self.__proccesingloop()
+        self._proccesingloop()
 
         return self._outputs[:]
 
